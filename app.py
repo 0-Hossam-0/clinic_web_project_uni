@@ -1,43 +1,73 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-import json, os
+import mysql.connector
 
 app = Flask(__name__, static_folder='.')
 CORS(app)
+ 
+DB_CONFIG = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': '12345',        
+    'database': 'clinic'  
+}
+def get_db():
+     return mysql.connector.connect(host='localhost', user='root', password='12345', database='clinic')
 
-DATA_FILE = 'appointments.json'
-
-def load():
-    if not os.path.exists(DATA_FILE):
-        return []
-    with open(DATA_FILE, 'r', encoding='utf-8') as f:
-        return json.load(f)
-
-def save(data):
-    with open(DATA_FILE, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False)
-
+# Serve 
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')
-
+# GET: 
 @app.route('/appointments', methods=['GET'])
 def get_appointments():
-    return jsonify(load())
-
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT id, name, phone, department, date, TIME_FORMAT(time, '%H:%i:%s') as time FROM appointments")
+    rows = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return jsonify(rows)
+# POST
 @app.route('/appointments', methods=['POST'])
 def add_appointment():
     appt = request.json
-    data = load()
-    data.append(appt)
-    save(data)
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(
+        "INSERT INTO appointments (name, phone, department, date, time) VALUES (%s, %s, %s, %s, %s)",
+        (appt['name'], appt['phone'], appt['department'], appt['date'], appt['time'])
+    )
+    db.commit()
+    new_id = cursor.lastrowid
+    cursor.close()
+    db.close()
+    return jsonify({'ok': True, 'id': new_id})
+# PUT
+@app.route('/appointments/<int:appt_id>', methods=['PUT'])
+def update_appointment(appt_id):
+    appt = request.json
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(
+        "UPDATE appointments SET name=%s, phone=%s, department=%s, date=%s, time=%s WHERE id=%s",
+        (appt['name'], appt['phone'], appt['department'], appt['date'], appt['time'], appt_id)
+    )
+    db.commit()
+    cursor.close()
+    db.close()
     return jsonify({'ok': True})
-
+# DELETE
 @app.route('/appointments/<int:appt_id>', methods=['DELETE'])
 def delete_appointment(appt_id):
-    data = [a for a in load() if a['id'] != appt_id]
-    save(data)
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM appointments WHERE id=%s", (appt_id,))
+    db.commit()
+    cursor.close()
+    db.close()
     return jsonify({'ok': True})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -14,12 +14,14 @@
     <!-- NAVBAR -->
     <nav class="navbar">
       <div class="nav-logo">🏥 عيادة د. الألفي</div>
+     
       <ul class="nav-links">
         <li><a href="#home">الرئيسية</a></li>
-        <li><a href="#about">عن الطبيب</a></li>
-        <li><a href="#services">الخدمات</a></li>
-        <li><a href="#appointment">حجز موعد</a></li>
+        <li><a href="appointment.html">حجز موعد</a></li>
+        <li><a href="my-appointments.html">حجوزاتي</a></li>
+        <li><a href="faq.html">الاسئله الشائعه </a></li>
       </ul>
+    </nav>
     </nav>
 
     <!-- SECTION 1: HOME -->
@@ -27,7 +29,7 @@
       <div class="hero-content">
         <h1>عيادة د.الألفي</h1>
         <p>نقدم لك أفضل رعاية طبية بأحدث الأجهزة وأمهر الأطباء</p>
-        <a href="#appointment" class="btn-primary">احجز موعدك الآن</a>
+        <a href="appointment.html" class="btn-primary">احجز موعدك الآن</a>
       </div>
       <div class="hero-shape"></div>
     </section>
@@ -104,107 +106,12 @@
         <h3 id="modal-title"></h3>
         <p id="modal-desc"></p>
         <ul id="modal-list"></ul>
-        <a
-          href="#appointment"
-          class="btn-primary"
-          onclick="closeModalBtn()"
-          style="display: inline-block; margin-top: 20px"
-          >احجز موعدك الآن</a
-        >
+        <a href="#appointment"  class="btn-primary"  onclick="closeModalBtn()"  style="display: inline-block; margin-top: 20px"
+          >احجز موعدك الآن</a>
       </div>
     </div>
 
-    <!-- SECTION 4: APPOINTMENT FORM -->
-    <section id="appointment" class="appointment-section">
-      <div class="section-title">
-        <h2>احجز موعدك</h2>
-        <p>املأ البيانات وسنتواصل معك لتأكيد الموعد</p>
-      </div>
-      <div class="form-container">
-        <div class="form-group">
-          <label for="name">الاسم الكامل</label>
-          <input type="text" id="name" placeholder="أدخل اسمك الكامل" />
-        </div>
-        <div class="form-group">
-          <label for="phone">رقم الهاتف</label>
-          <input type="tel" id="phone" placeholder="01xxxxxxxxx" />
-        </div>
-        <div class="form-group">
-          <label for="department">القسم الطبي</label>
-          <select id="department">
-            <option value="" disabled selected>
-              اختر القسم المناسب لحالتك
-            </option>
-            <option value="general">🩺 الكشف العام</option>
-            <option value="heart">❤️ أمراض القلب</option>
-            <option value="lab">🔬 تحاليل مخبرية</option>
-            <option value="chronic">📋 متابعة الأمراض المزمنة</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="date">تاريخ الموعد</label>
-          <input type="date" id="date" />
-        </div>
-        <div class="form-group">
-          <label for="time">وقت الموعد</label>
-          <input type="time" id="time" />
-        </div>
-        <button type="button" class="btn-submit" onclick="addAppointment()">
-          تأكيد الحجز
-        </button>
-        <button
-          type="button"
-          class="btn-secondary"
-          onclick="showMyHistory()"
-          style="
-            margin-top: 10px;
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            background-color: #f0f6ff;
-            border: 2px solid #1a6fbf;
-            color: #1a6fbf;
-            font-family: &quot;Cairo&quot;;
-            font-weight: 700;
-            transition: 0.3s;
-          "
-        >
-          🔍 عرض حجوزاتي السابقة
-        </button>
-      </div>
-    </section>
-
-    <!-- APPOINTMENTS TABLE -->
-    <section
-      id="appointments-list"
-      class="table-section"
-      style="display: none; padding-top: 20px"
-    >
-      <div class="section-title">
-        <h2>حجوزاتك المسجلة</h2>
-        <p>هذه هي المواعيد المرتبطة برقمك</p>
-      </div>
-      <div class="table-wrapper">
-        <table id="appointments-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>الاسم</th>
-              <th>الهاتف</th>
-              <th>القسم</th>
-              <th>التاريخ</th>
-              <th>الوقت</th>
-              <th>الإجراء</th>
-            </tr>
-          </thead>
-          <tbody id="table-body"></tbody>
-        </table>
-        <p id="no-appointments" class="no-data" style="display: none">
-          لا توجد مواعيد لهذا الرقم
-        </p>
-      </div>
-    </section>
+     
 
     <!-- FOOTER -->
     <footer class="footer">

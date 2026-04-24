@@ -488,11 +488,13 @@ body {
   font-weight: 700;
   font-size: 0.95rem;
 }
+ 
 
 #appointments-table td {
-  padding: 12px 16px;
+  padding: 12px 8px;
   text-align: center;
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 #appointments-table tbody tr:nth-child(even) {
@@ -519,6 +521,21 @@ body {
   background: #c0392b;
 }
 
+.btn-update {
+  background: #f39c12;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: "Cairo", sans-serif;
+  font-size: 0.85rem;
+  transition: background 0.3s;
+}
+
+.btn-update:hover {
+  background: #c0392b;
+}
 .no-data {
   text-align: center;
   color: var(--text-muted);

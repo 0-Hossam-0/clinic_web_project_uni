@@ -1,14 +1,3 @@
-let appointments = [];
-const BASE_URL = "http://127.0.0.1:5000";
-
-fetch(`${BASE_URL}/appointments`)
-  .then((r) => r.json())
-  .then((data) => {
-    appointments = data;
-  });
-
-document.getElementById("appointments-list").style.display = "none";
-
 // ===== MODAL DATA =====
 const servicesData = {
   general: {
@@ -61,6 +50,17 @@ const servicesData = {
   },
 };
 
+let appointments = [];
+const BASE_URL = "http://127.0.0.1:5000";
+
+fetch(`${BASE_URL}/appointments`)
+  .then((r) => r.json())
+  .then((data) => {
+    appointments = data;
+  });
+
+document.getElementById("appointments-list").style.display = "none";
+
 // ===== MODAL FUNCTIONS =====
 function openModal(key) {
   const data = servicesData[key];
@@ -69,7 +69,7 @@ function openModal(key) {
   document.getElementById("modal-desc").textContent = data.desc;
   const list = document.getElementById("modal-list");
   list.innerHTML = "";
-  data.points.forEach(function (point) {
+  data.points.forEach((point) => {
     const li = document.createElement("li");
     li.textContent = point;
     list.appendChild(li);
@@ -137,12 +137,56 @@ function clearInputs() {
 async function deleteAppointment(id) {
   if (confirm("هل تريد حذف هذا الموعد فعلاً؟")) {
     await fetch(`${BASE_URL}/appointments/` + id, { method: "DELETE" });
-    appointments = appointments.filter((app) => app.id !== id);
+
+    const r = await fetch(`${BASE_URL}/appointments`);
+    appointments = await r.json();
     alert("تم الحذف بنجاح");
     document.getElementById("appointments-list").style.display = "none";
   }
 }
 
+async function editAppointment(id, name, phone, department, date, time) {
+  let newName = prompt("اسم المريض:", name);
+  let newPhone = prompt("رقم الهاتف:", phone);
+  let newDepartment = prompt("القسم:", department);
+  let newDate = prompt("التاريخ (YYYY-MM-DD):", date);
+  let newTime = prompt("الوقت:", time);
+
+  if (!newName || !newPhone || !newDate || !newTime) {
+    alert("❌ تم إلغاء التعديل");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${BASE_URL}/appointments/` + id, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: newName,
+        phone: newPhone,
+        department: newDepartment,
+        date: newDate ? new Date(newDate).toISOString().split("T")[0] : null,
+        time: newTime,
+      }),
+    });
+
+    let appt = appointments.find((a) => a.id === id);
+    if (appt) {
+      appt.name = newName;
+      appt.phone = newPhone;
+      appt.department = newDepartment;
+      appt.date = newDate;
+      appt.time = newTime;
+    }
+
+    alert("✅ تم التعديل بنجاح!");
+    showMyHistory();
+    document.getElementById("appointments-list").style.display = "none";
+  } catch (err) {
+    alert("❌ حصل خطأ: " + err.message);
+    console.error(err);
+  }
+}
 function showMyHistory() {
   let searchPhone = prompt("أدخل رقم الموبايل الذي حجزت به:");
   if (!searchPhone) return;
@@ -167,6 +211,8 @@ function showMyHistory() {
         <td>${app.date}</td>
         <td>${app.time}</td>
         <td><button class="btn-delete" onclick="deleteAppointment(${app.id})">🗑️ حذف</button></td>
+        <td><button class="btn-update" onclick="editAppointment(${app.id}, '${app.name}', '${app.phone}','${app.department}', '${app.date ? app.date.split("T")[0] : app.date}' , '${app.time}')">✏️ تعديل</button></td>
+        
       `;
       tableBody.appendChild(newRow);
     });
