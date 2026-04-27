@@ -4,20 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>حجوزاتي - عيادة د. الألفي</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../global.css" />
+    <link rel="stylesheet" href="my-appointments.css" />
   </head>
   <body>
     <!-- NAVBAR -->
     <nav class="navbar">
       <div class="nav-logo">🏥 عيادة د. الألفي</div>
       <ul class="nav-links">
-        <li><a href="index.html">الرئيسية</a></li>
-        <li><a href="appointment.html">حجز موعد</a></li>
-        <li><a href="my-appointments.html">حجوزاتي</a></li>
+        <li><a href="../home/home.html">الرئيسية</a></li>
+        <li><a href="../appointment/appointment.html">حجز موعد</a></li>
+        <li><a href="#appointments-list">حجوزاتي</a></li>
+        <li><a href="../faq/faq.html">الاسئله الشائعه </a></li>
       </ul>
     </nav>
 
@@ -29,9 +28,7 @@
       </div>
       <div class="form-container">
         <div class="form-group"></div>
-        <button type="button" class="btn-submit" onclick="showMyHistory()">
-          🔍 عرض حجوزاتي
-        </button>
+        <button type="button" class="btn-submit" onclick="showMyHistory()">🔍 عرض حجوزاتي</button>
       </div>
     </section>
 
@@ -57,9 +54,7 @@
           </thead>
           <tbody id="table-body"></tbody>
         </table>
-        <p id="no-appointments" class="no-data" style="display: none">
-          لا توجد مواعيد لهذا الرقم
-        </p>
+        <p id="no-appointments" class="no-data" style="display: none">لا توجد مواعيد لهذا الرقم</p>
       </div>
     </section>
 
@@ -69,6 +64,6 @@
       <p>📍 القاهرة، مصر &nbsp;|&nbsp; 📞 01000000000</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="../../global.js"></script>
   </body>
 </html>

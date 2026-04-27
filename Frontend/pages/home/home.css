@@ -1,0 +1,10 @@
+.services-footer {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: var(--primary);
+  font-weight: 600;
+  flex-wrap: wrap; /* عشان الموبايل */
+}
